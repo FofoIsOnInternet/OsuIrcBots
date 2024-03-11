@@ -57,10 +57,19 @@ public class IrcProtocolMessage {
         }
     }
     
+    /**
+     * The original irc data line.
+     * @return The original string sent by the irc server
+     */
     public String original(){
         return originalMessage;
     }
     
+    /**
+     * Compares the data of the message with a flag to see.
+     * @param f A Flag or an array of Flag objects
+     * @return True iff the data fills the requierements to be flaged.
+     */
     public boolean isInteresting(Flag f){
         boolean result = true;
         // Sender
@@ -76,11 +85,13 @@ public class IrcProtocolMessage {
         return result;
     }
     public boolean isInteresting(Flag[] fs){
-        boolean result = false;
-        for(Flag f : fs){
-            result |= isInteresting(f);
+        boolean interesting = false;
+        int i = 0;
+        while(!interesting && i<fs.length){
+            interesting |= isInteresting(fs[i]);
+            i++;
         }
-        return result;
+        return interesting;
     }
     
     @Override

@@ -26,7 +26,11 @@ public class PrivMsg {
         this.timestamp = System.currentTimeMillis();
     }
     
-    
+    /**
+     * Convert a line of data from the irc server into a PrivMsg object
+     * @param m String of data
+     * @return A PrivMsg object
+     */
     public static PrivMsg toPrivMsg(String m){
         String sender = null;
         String message = null;
@@ -39,6 +43,11 @@ public class PrivMsg {
         return new PrivMsg(sender,message,recipient);
     }
     
+    /**
+     * Convert an IrcProtocolMessage object into a PrivMsg object if possible
+     * @param msg The IrcProtocolMessage object
+     * @return A PrivMsg object
+     */
     public static PrivMsg toPrivMsg(IrcProtocolMessage msg){
         String sender = null;
         String message = null;

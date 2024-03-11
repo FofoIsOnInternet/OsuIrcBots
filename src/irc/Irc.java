@@ -17,6 +17,8 @@ public class Irc {
     private PrintWriter out;
     private BufferedReader in;
     
+    private String hostUserName;
+    
     private List<Flag> interests = new ArrayList<>();
     private Flag priorityFlag = null;
     private Queue<IrcProtocolMessage> priorityQueue = new PriorityQueue<>();
@@ -30,8 +32,9 @@ public class Irc {
 
             // Send user and nickname commands
             send("PASS " + password);  // Send the password
-            send("USER " + nickname + " " + nickname + " " + nickname + " :Example IRC Bot");
+            send("USER " + nickname + " " + nickname + " " + nickname + " :Hello bancho!!");
             send("NICK " + nickname);
+            hostUserName = nickname;
 
             // Join the channel
             send("JOIN " + channel);
@@ -49,10 +52,9 @@ public class Irc {
         out.println(message);
     }
     
-    
     /**
-     * Returns the IRC data
-     * @return A string with lines of data
+     * Returns the next interesting line of data
+     * @return An IrcProtocolMessage object
      */
     public IrcProtocolMessage NextData() {
         IrcProtocolMessage data = null;
@@ -104,12 +106,27 @@ public class Irc {
         return data;
     }
     
+    /**
+     * Add a new flag to the list of interests
+     * @param f the Flag
+     */
     public void addFlag(Flag f){
         interests.add(f);
     }
+    
+    /**
+     * Remove the given flag from the list of interests
+     * @param f the Flag
+     */
     public void removeFlag(Flag f){
         interests.remove(f);
     }
+    
+    /**
+     * Set a flag as a priority.
+     * Once the interesting data was found (or not) the priority will be removed.
+     * @param f the Flag
+     */
     public void raisePriorityFlag(Flag f){
         priorityFlag = f;
     }
@@ -139,18 +156,30 @@ public class Irc {
         send("PART "+ channel);
     }
     
+    /**
+     * Disconnect the irc client from the irc server.
+     */
     public void disconect(){
         send("QUIT");
     }
     
+    /**
+     * Return the next message sent to the client by a user/channel
+     * @param channel channel/user to wait from
+     * @return A PrivMsg object
+     */
     public PrivMsg waitPrivateMessage(String channel){
         PrivMsg msg = null;
-        raisePriorityFlag(new Flag(channel, "PRIVMSG", new String[]{"f_o_f_o"}));
+        raisePriorityFlag(new Flag(channel, "PRIVMSG", new String[]{hostUserName}));
         msg = PrivMsg.toPrivMsg(NextData());
         return msg;
     }
     
-    public void run(int runTime){
+    /**
+     * Simple run loop that prints out the incoming messages.
+     */
+    public void run(){
+        addFlag(new Flag(null,"PRIVMSG",new String[0]));
         while (true) {
             IrcProtocolMessage data = NextData();
             if(data.command.equals("PRIVMSG")){
@@ -159,8 +188,5 @@ public class Irc {
                 System.out.println(data.toString());
             }
         }
-    }
-    public void run(){
-        run(120);
     }
 }
