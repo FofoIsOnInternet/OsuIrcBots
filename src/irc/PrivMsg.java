@@ -39,6 +39,18 @@ public class PrivMsg {
         return new PrivMsg(sender,message,recipient);
     }
     
+    public static PrivMsg toPrivMsg(IrcProtocolMessage msg){
+        String sender = null;
+        String message = null;
+        String recipient = null;
+        if(msg.command.equals("PRIVMSG")){
+            sender = msg.sender;
+            message = msg.attributes[1];
+            recipient = msg.attributes[0];
+        }
+        return new PrivMsg(sender,message,recipient);
+    }
+    
     @Override
     public String toString(){
         StringBuilder b = new StringBuilder();

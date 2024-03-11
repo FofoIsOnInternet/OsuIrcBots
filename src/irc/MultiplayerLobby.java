@@ -14,8 +14,12 @@ public class MultiplayerLobby {
     private String roomName;
     private String roomId;
     private boolean open = false;
+    private final long CLOSE_CODE;
     
     public MultiplayerLobby(String name){
+        // Lobby close code
+        CLOSE_CODE = new Random().nextLong();
+        System.out.println(CLOSE_CODE);
         // Irc server details
         String server = "irc.ppy.sh";
         int port = 6667;
@@ -24,7 +28,7 @@ public class MultiplayerLobby {
         String password = "4a45538f";
         // Instantiate an irc on bancho
         irc = new Irc(server,port,channel,nickname,password);
-        irc.run();
+        //irc.run();
         // opens a new room
         roomName = name;
         irc.privateMessage("BanchoBot","!mp make " + roomName);
@@ -38,6 +42,10 @@ public class MultiplayerLobby {
         // open the room
         say("!mp password");
         open = true;
+        // Leave the default channel
+        irc.leave(channel);
+        // Adds a flag on messages coming from the lobby
+        irc.addFlag(new Flag(null,"PRIVMSG",new String[]{roomId}));
         // Run the bot
         run();
         // Close the room
@@ -53,35 +61,25 @@ public class MultiplayerLobby {
     }
     
     /**
-     * Returns an array containing the last messages from the lobby
-     * @return an array of messages (PrivMsg) 
-     */
-    private PrivMsg[] get_messages(){
-        PrivMsg[] messages = null;
-        List<PrivMsg> room_messages = new ArrayList<>();
-        for(PrivMsg msg : messages ){
-            if(msg.recipient.equals(roomId)){
-                room_messages.add(msg);
-            }
-        }
-        return room_messages.toArray(PrivMsg[]::new);
-    }
-    
-    /**
      * Close the lobby.
      */
     private void close(){
         say("!mp close");
         open = false;
+        irc.disconect();
     }
     
-    public void run(){
+    private void run(){
         while(open){
-            for(PrivMsg msg : get_messages() ){
-                System.out.println(msg.toString());
-                if(msg.message.contains("!quit")){
+            var data = irc.NextData();
+            if(data.command.equals("PRIVMSG")){
+                var message = PrivMsg.toPrivMsg(data);
+                System.out.println(message.toString());
+                if(message.message.contains("!quit "+CLOSE_CODE)){
                     close();
                 }
+            }else{
+                System.out.println(data.toString());
             }
         }
     }

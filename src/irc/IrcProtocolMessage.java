@@ -50,6 +50,9 @@ public class IrcProtocolMessage {
             isReply=false;
             int start = 1;
             int end = messageCut[0].indexOf('!');
+            if(end==-1){
+                end=1;
+            }
             sender = messageCut[0].substring(start, end);
         }
     }
@@ -61,7 +64,7 @@ public class IrcProtocolMessage {
     public boolean isInteresting(Flag f){
         boolean result = true;
         // Sender
-        result &= f.sender == null || sender.equals(f.sender);
+        result &= f.sender == null || (sender != null && sender.equals(f.sender));
         // Command 
         result &= f.command == null || command.equals(f.command);
         // Attributes

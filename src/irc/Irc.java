@@ -19,6 +19,7 @@ public class Irc {
     
     private List<Flag> interests = new ArrayList<>();
     private Flag priorityFlag = null;
+    private Queue<IrcProtocolMessage> priorityQueue = new PriorityQueue<>();
 
     public Irc(String server, int port, String channel, String nickname, String password) {
         try {
@@ -34,9 +35,6 @@ public class Irc {
 
             // Join the channel
             send("JOIN " + channel);
-            
-            // Adds some basic flags
-            addFlag(new Flag(null,"PRIVMSG", new String[0]));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,27 +56,51 @@ public class Irc {
      */
     public IrcProtocolMessage NextData() {
         IrcProtocolMessage data = null;
+        IrcProtocolMessage msg;
+        long startTime = System.currentTimeMillis();
+        long maxRunTime = 120000; // 2 minutes
+        if(priorityFlag != null){ // Leaves a 15 secondes wait time limit for the answer to come
+            maxRunTime = 15000;
+        }
         try {
             String line;
-            while (null != (line = in.readLine()) && data == null) {
-                // Extract the informations
-                IrcProtocolMessage t = new IrcProtocolMessage(line);
-                // If there is no priority flag
-                if (priorityFlag == null){
-                    // If the message can be interesting
-                    if(t.isInteresting(interests.toArray(Flag[]::new))){
-                        data = t;
+            // If there is no priorityFlag and if there are lines in the priority queue
+            if(priorityFlag == null && !priorityQueue.isEmpty()){
+                while(data == null && !priorityQueue.isEmpty()){
+                    msg = priorityQueue.remove();
+                    if(msg.isInteresting(interests.toArray(Flag[]::new))){
+                        data = msg;
                     }
-                }else{
-                    // if the message fills the requirements of the priority flag
-                    // else if the message can be interesting
-                    // else 
                 }
-                
+            }
+            // Then we read the rest of the incoming data
+            while (startTime - System.currentTimeMillis() < maxRunTime 
+                    && data == null) {
+                line = in.readLine();
+                if(line != null){
+                    // Extract the informations
+                    msg = new IrcProtocolMessage(line);
+                    // If there is no priority flag
+                    if (priorityFlag == null){
+                        // If the message can be interesting
+                        if(msg.isInteresting(interests.toArray(Flag[]::new))){
+                            data = msg;
+                        }
+                    }else{
+                        // if the message fills the requirements of the priority flag
+                        if(msg.isInteresting(priorityFlag)){
+                            data = msg;
+                        }else if (msg.isInteresting(interests.toArray(Flag[]::new))){
+                        // else if the message can be interesting
+                            priorityQueue.add(msg);
+                        }
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        priorityFlag = null; // removes the priority state
         return data;
     }
     
@@ -87,6 +109,9 @@ public class Irc {
     }
     public void removeFlag(Flag f){
         interests.remove(f);
+    }
+    public void raisePriorityFlag(Flag f){
+        priorityFlag = f;
     }
     
     /**
@@ -106,20 +131,33 @@ public class Irc {
         send("JOIN " + channel);
     }
     
+    /**
+     * Leaves a channel
+     * @param channel
+     */
+    public void leave(String channel){
+        send("PART "+ channel);
+    }
+    
+    public void disconect(){
+        send("QUIT");
+    }
+    
     public PrivMsg waitPrivateMessage(String channel){
         PrivMsg msg = null;
-        long startTime = System.currentTimeMillis();
-        long runTime = 60000;
-        while(msg == null && (startTime - System.currentTimeMillis()) < runTime){
-            
-        }
+        raisePriorityFlag(new Flag(channel, "PRIVMSG", new String[]{"f_o_f_o"}));
+        msg = PrivMsg.toPrivMsg(NextData());
         return msg;
     }
     
     public void run(int runTime){
         while (true) {
             IrcProtocolMessage data = NextData();
-            System.out.println(data.toString());
+            if(data.command.equals("PRIVMSG")){
+                System.out.println(PrivMsg.toPrivMsg(data).toString());
+            }else{
+                System.out.println(data.toString());
+            }
         }
     }
     public void run(){
