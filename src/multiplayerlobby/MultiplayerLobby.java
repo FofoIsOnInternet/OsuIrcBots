@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package irc;
+package multiplayerlobby;
 
+import irc.Irc;
+import irc.PrivMsg;
 import java.util.*;
 /**
  *
@@ -12,8 +14,8 @@ import java.util.*;
 public class MultiplayerLobby {
     private Irc irc;
     private String roomName;
-    private String roomId;
-    private boolean open = false;
+    private String roomId; 
+    public boolean open = false;
     private final long CLOSE_CODE;
     
     public MultiplayerLobby(String name){
@@ -45,7 +47,7 @@ public class MultiplayerLobby {
         // Leave the default channel
         irc.leave(channel);
         // Adds a flag on messages coming from the lobby
-        irc.addFlag(new Flag(null,"PRIVMSG",new String[]{roomId}));
+        //irc.addFlag(new Flag(null,"PRIVMSG",new String[]{roomId}));
         // Run the bot
         run();
         // Close the room
@@ -60,13 +62,39 @@ public class MultiplayerLobby {
         irc.privateMessage(roomId, message);
     }
     
+    // MP COMMANDS
+    
+    /**
+     * Updates the room name.
+     * @param title 
+     */
+    public void name(String title){}
+    public void invite(String userName){}
+    public void lock(){}
+    public void unlock(){}
+    public void size(int size){}
+    public void set(int teamMode, int scoreMode,int size){} // Replace both modes by enums
+    public void move(String userName,int slot){}
+    public void host(String userName){}
+    // ...
+    
     /**
      * Close the lobby.
      */
-    private void close(){
+    public void close(){
         say("!mp close");
         open = false;
         irc.disconect();
+    }
+    
+    // END OF MP COMMANDS
+    
+    /**
+     * 
+     * @return 
+     */
+    public LobbyEvent nextEvent(){
+        return null;
     }
     
     private void run(){

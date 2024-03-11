@@ -4,7 +4,7 @@
  */
 package autohostbot;
 
-import irc.MultiplayerLobby;
+import multiplayerlobby.MultiplayerLobby;
 
 /**
  *
