@@ -4,6 +4,7 @@
  */
 package multiplayerlobby;
 
+import irc.Flag;
 import irc.Irc;
 import irc.PrivMsg;
 import java.util.*;
@@ -47,7 +48,7 @@ public class MultiplayerLobby {
         // Leave the default channel
         irc.leave(channel);
         // Adds a flag on messages coming from the lobby
-        //irc.addFlag(new Flag(null,"PRIVMSG",new String[]{roomId}));
+        irc.addFlag(new Flag(null,"PRIVMSG",new String[]{roomId}));
         // Run the bot
         run();
         // Close the room
@@ -73,10 +74,26 @@ public class MultiplayerLobby {
     public void lock(){}
     public void unlock(){}
     public void size(int size){}
-    public void set(int teamMode, int scoreMode,int size){} // Replace both modes by enums
+    public void set(TeamMode teamMode, ScoreMode scoreMode,int size){}
     public void move(String userName,int slot){}
     public void host(String userName){}
-    // ...
+    public void clearHost(){}
+    public Object settings(){return null;} // TBD
+    public void start(int time){}
+    public void start(){}
+    public void abort(){}
+    public void team(String userName,String color){}
+    public void map(int mapid){}
+    public void mods(mods[] mods){}
+    public void timer(int time){}
+    public void abortTimer(){}
+    public void kick(String userName){}
+    public void ban(String userName){}
+    public void password(String password){}
+    public void removePassord(){}
+    public void addRef(String[] usersName){}
+    public void removeRef(String[] usersName){}
+    public void listRefs(String[] usersName){}
     
     /**
      * Close the lobby.
@@ -94,6 +111,8 @@ public class MultiplayerLobby {
      * @return 
      */
     public LobbyEvent nextEvent(){
+        var data = irc.NextData();
+        // TODO
         return null;
     }
     
