@@ -18,6 +18,25 @@ public class Irc {
     private BufferedReader in;
     
     private String hostUserName;
+    private String server;
+    private long lastPing;
+    /**
+     * Has to be lower than the maximum run time of the NextData method.
+     * in the worst scenario, here it'll leave the program 10 seconds
+     * to run between two NextData calls. Otherwise the client is going
+     * to be timed out.
+     * ( Ping -> NextData(49sec**) -> No ping -> NextData(120sec(max)) -> Ping
+     * Total : 169sec (time out is 180 seconds)
+     * What if we leave 60 seconds ? Well ...
+     * ( Ping -> NextData(59sec**) -> No ping -> NextData(120sec(max)) -> Ping
+     * Total : 179sec (time out is 180 seconds) dangerous
+     * What if it's 2 minutes ? 
+     * ( Ping -> NextData(119sec**) -> No ping -> NextData(120sec(max)) -> Ping
+     * Total : 239sec (time out is 180 seconds) obvious disconection
+     * 
+     * **(maximum run time for the next ping to not be sent)
+     */
+    private static final long PING_INTERVAL = 50000; 
     
     private List<Flag> interests = new ArrayList<>();
     private Flag priorityFlag = null;
@@ -29,15 +48,20 @@ public class Irc {
             ircSocket = new Socket(server, port);
             out = new PrintWriter(ircSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(ircSocket.getInputStream()));
+            this.server = server;
 
             // Send user and nickname commands
             send("PASS " + password);  // Send the password
             send("USER " + nickname + " " + nickname + " " + nickname + " :Hello bancho!!");
             send("NICK " + nickname);
             hostUserName = nickname;
+            
+            addFlag(new Flag(null, "PING", null));
+            addFlag(new Flag(null, "PONG", null));
 
             // Join the channel
             send("JOIN " + channel);
+            lastPing = System.currentTimeMillis();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,33 +92,35 @@ public class Irc {
             String line;
             // If there is no priorityFlag and if there are lines in the priority queue
             if(priorityFlag == null && !priorityQueue.isEmpty()){
-                while(data == null && !priorityQueue.isEmpty()){
+                while(System.currentTimeMillis() - startTime < maxRunTime && 
+                        data == null && !priorityQueue.isEmpty()){
                     msg = priorityQueue.remove();
                     if(msg.isInteresting(interests.toArray(Flag[]::new))){
                         data = msg;
                     }
                 }
-            }
-            // Then we read the rest of the incoming data
-            while (startTime - System.currentTimeMillis() < maxRunTime 
-                    && data == null) {
-                line = in.readLine();
-                if(line != null){
-                    // Extract the informations
-                    msg = new IrcProtocolMessage(line);
-                    // If there is no priority flag
-                    if (priorityFlag == null){
-                        // If the message can be interesting
-                        if(msg.isInteresting(interests.toArray(Flag[]::new))){
-                            data = msg;
-                        }
-                    }else{
-                        // if the message fills the requirements of the priority flag
-                        if(msg.isInteresting(priorityFlag)){
-                            data = msg;
-                        }else if (msg.isInteresting(interests.toArray(Flag[]::new))){
-                        // else if the message can be interesting
-                            priorityQueue.add(msg);
+            }else{
+                // Then we read the rest of the incoming data
+                while (System.currentTimeMillis() - startTime < maxRunTime && 
+                        data == null) {
+                    line = in.readLine();
+                    if(line != null){
+                        // Extract the informations
+                        msg = new IrcProtocolMessage(line);
+                        // If there is no priority flag
+                        if (priorityFlag == null){
+                            // If the message can be interesting
+                            if(msg.isInteresting(interests.toArray(Flag[]::new))){
+                                data = msg;
+                            }
+                        }else{
+                            // if the message fills the requirements of the priority flag
+                            if(msg.isInteresting(priorityFlag)){
+                                data = msg;
+                            }else if (msg.isInteresting(interests.toArray(Flag[]::new))){
+                            // else if the message can be interesting
+                                priorityQueue.add(msg);
+                            }
                         }
                     }
                 }
@@ -161,6 +187,17 @@ public class Irc {
      */
     public void disconect(){
         send("QUIT");
+    }
+    
+    /**
+     * Ping the server every 2 minutes.
+     * HAS TO BE CALLED REGULARLY WHEN USING AN INSTANCE OF THIS CLASS
+     */
+    public void ping(){
+        if(System.currentTimeMillis() - lastPing  > PING_INTERVAL){
+            send("PING "+server);
+            lastPing = System.currentTimeMillis();
+        }
     }
     
     /**

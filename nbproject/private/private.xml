@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/irc/IrcProtocolMessage.java</file>
-            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/irc/Irc.java</file>
+            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/multiplayerlobby/MultiplayerLobby.java</file>
+            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/main/Main.java</file>
+            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/multiplayerlobby/LobbyEvent.java</file>
+            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/multiplayerlobby/LobbyEventType.java</file>
         </group>
     </open-files>
 </project-private>

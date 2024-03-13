@@ -75,9 +75,11 @@ public class MultiplayerLobby {
     public void lock(){say("!mp lock");}
     public void unlock(){say("!mp unlock");}
     public void size(int size){say("!mp size " + size);}
-    public void set(TeamMode teamMode, ScoreMode scoreMode,int size){say("!mp set " + teamMode.toInt() + " "
-                                                                                    + scoreMode.toInt() + " "
-                                                                                    + size);}
+    public void set(TeamMode teamMode, ScoreMode scoreMode,int size){
+        say("!mp set " + teamMode.toInt() + " "
+                        + scoreMode.toInt() + " "
+                        + size);
+    }
     public void move(String userName,int slot){say("!mp move " + userName + " " + slot);}
     public void host(String userName){}
     public void clearHost(){}
@@ -110,26 +112,36 @@ public class MultiplayerLobby {
     // END OF MP COMMANDS
     
     /**
-     * 
+     * Returns the last interesting event that hapenned in the room.
      * @return 
      */
     public LobbyEvent nextEvent(){
         var data = irc.NextData();
-        // TODO
-        return null;
+        LobbyEvent event = null;
+        if(data != null && data.command.equals("PRIVMSG")){
+            var message = PrivMsg.toPrivMsg(data);
+            
+        }
+        
+        return event;
     }
     
     private void run(){
         while(open){
+            irc.ping();
             var data = irc.NextData();
-            if(data.command.equals("PRIVMSG")){
-                var message = PrivMsg.toPrivMsg(data);
-                System.out.println(message.toString());
-                if(message.message.contains("!quit "+CLOSE_CODE)){
-                    close();
+            if(data != null){
+                if(data.command.equals("PRIVMSG")){
+                    var message = PrivMsg.toPrivMsg(data);
+                    System.out.println(message.toString());
+                    var event = LobbyEvent.toLobbyEvent(message);
+                    System.out.println(event.toString());
+                    if(message.message.contains("!quit "+CLOSE_CODE)){
+                        close();
+                    }
+                }else{
+                    System.out.println(data.toString());
                 }
-            }else{
-                System.out.println(data.toString());
             }
         }
     }

@@ -77,11 +77,14 @@ public class IrcProtocolMessage {
         // Command 
         result &= f.command == null || command.equals(f.command);
         // Attributes
-        for (int i=0;i<min(f.attributes.length,attributes.length);i++){
-            String attr = attributes[i];
-            String fattr = f.attributes[i];
-            result &= fattr == null || attr.equals(fattr);
+        if (f.attributes != null){
+            for (int i=0;i<min(f.attributes.length,attributes.length);i++){
+                String attr = attributes[i];
+                String fattr = f.attributes[i];
+                result &= fattr == null || attr.equals(fattr);
+            }
         }
+
         return result;
     }
     public boolean isInteresting(Flag[] fs){
