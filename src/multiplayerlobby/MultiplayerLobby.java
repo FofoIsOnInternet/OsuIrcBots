@@ -69,13 +69,16 @@ public class MultiplayerLobby {
      * Updates the room name.
      * @param title 
      */
-    public void name(String title){}
-    public void invite(String userName){}
-    public void lock(){}
-    public void unlock(){}
-    public void size(int size){}
-    public void set(TeamMode teamMode, ScoreMode scoreMode,int size){}
-    public void move(String userName,int slot){}
+    public void name(String title){say("!mp name " + title);}
+    public void name(){name(roomName);}
+    public void invite(String userName){say("!mp invite " + userName);}
+    public void lock(){say("!mp lock");}
+    public void unlock(){say("!mp unlock");}
+    public void size(int size){say("!mp size " + size);}
+    public void set(TeamMode teamMode, ScoreMode scoreMode,int size){say("!mp set " + teamMode.toInt() + " "
+                                                                                    + scoreMode.toInt() + " "
+                                                                                    + size);}
+    public void move(String userName,int slot){say("!mp move " + userName + " " + slot);}
     public void host(String userName){}
     public void clearHost(){}
     public Object settings(){return null;} // TBD
