@@ -16,10 +16,12 @@ public class MultiplayerLobby {
     private Irc irc;
     private String roomName;
     private String roomId; 
-    public boolean open = false;
+    private boolean open = false;
+    private GameMode mode;
     private final long CLOSE_CODE;
     
-    public MultiplayerLobby(String name){
+    public MultiplayerLobby(String name,GameMode mode){
+        this.mode = mode;
         // Lobby close code
         CLOSE_CODE = new Random().nextLong();
         System.out.println(CLOSE_CODE);
@@ -54,6 +56,9 @@ public class MultiplayerLobby {
         // Close the room
         if (open) {close();}
     }
+    public MultiplayerLobby (String name){
+        this(name,GameMode.STD);
+    }
     
     /**
      * Send a private message to the lobby
@@ -61,6 +66,10 @@ public class MultiplayerLobby {
      */
     private void say(String message){
         irc.privateMessage(roomId, message);
+    }
+    
+    public boolean isOpen(){
+        return open;
     }
     
     // MP COMMANDS
@@ -81,14 +90,18 @@ public class MultiplayerLobby {
                         + size);
     }
     public void move(String userName,int slot){say("!mp move " + userName + " " + slot);}
-    public void host(String userName){}
-    public void clearHost(){}
+    public void host(String userName){say("!mp host " + userName);}
+    public void clearHost(){say("!mp clearhost");}
     public Object settings(){return null;} // TBD
-    public void start(int time){}
-    public void start(){}
-    public void abort(){}
-    public void team(String userName,String color){}
-    public void map(int mapid){}
+    public void start(int time){say("!mp start " + time);}
+    public void start(){say("!mp start");}
+    public void abort(){say("!mp abort");}
+    public void team(String userName,TeamColor color){say("!mp team " + userName + " "
+                                                                      + color.toString());}
+    public void map(int mapid,GameMode mode){say("!mp map " + mapid + " " + mode.toInt());}
+    public void map(int mapid){map(mapid,mode);}
+    public void map(Map map, GameMode mode){map(map.id(),mode);}
+    public void map(Map map){map(map.id());}
     public void mods(mods[] mods){}
     public void timer(int time){}
     public void abortTimer(){}

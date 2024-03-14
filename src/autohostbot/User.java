@@ -4,19 +4,17 @@
  */
 package autohostbot;
 
+import multiplayerlobby.TeamColor;
+
 /**
  *
  * @author faust
  */
 public class User {
     
-    public enum Color{
-        RED,BLUE;
-    }
-    
     private String name;
     private int slot;
-    private Color color;
+    private TeamColor color;
     private int topCount;
     private int playCount;
     private long lastConnection;
@@ -24,7 +22,7 @@ public class User {
     public User(String username,int slot){
         this(username,slot,null);
     }
-    public User(String username,int slot, Color color){
+    public User(String username,int slot, TeamColor color){
         this.name = username;
         this.slot = slot;
         loadIfExists();

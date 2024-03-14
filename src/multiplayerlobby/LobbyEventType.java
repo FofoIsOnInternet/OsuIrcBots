@@ -50,6 +50,11 @@ public enum LobbyEventType {
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
                            m.message.contains("Changed match host to ") ||
                            m.message.contains("Cleared match host")
+    ),
+    GAME_START(
+            new String[0],
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("match started") // VERIFY !!!
     );
     
     private final String[] attrs;
