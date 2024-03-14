@@ -10,7 +10,7 @@ import java.util.HashMap;
  *
  * @author faust
  */
-public enum LobbyEventTypes {
+public enum LobbyEventType {
     USER_JOIN,
     USER_LEAVE,
     USER_MOVED,

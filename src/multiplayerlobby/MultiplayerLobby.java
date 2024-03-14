@@ -115,18 +115,29 @@ public class MultiplayerLobby {
      */
     public LobbyEvent nextEvent(){
         var data = irc.NextData();
-        // TODO
-        return null;
+        LobbyEvent event = null;
+        if(data != null && data.command.equals("PRIVMSG")){
+            PrivMsg message = new PrivMsg(data);
+            
+        }
+        
+        return event;
     }
     
     private void run(){
         while(open){
             var data = irc.NextData();
-            if(data.command.equals("PRIVMSG")){
-                var message = PrivMsg.toPrivMsg(data);
-                System.out.println(message.toString());
-                if(message.message.contains("!quit "+CLOSE_CODE)){
-                    close();
+            if(data != null){
+                if(data.command.equals("PRIVMSG")){
+                    PrivMsg message = new PrivMsg(data);
+                    System.out.println(message.toString());
+                    LobbyEvent event = new LobbyEvent(message);
+                    System.out.println(event.toString());
+                    if(message.message.contains("!quit "+CLOSE_CODE)){
+                        close();
+                    }
+                }else{
+                    System.out.println(data.toString());
                 }
             }else{
                 System.out.println(data.toString());

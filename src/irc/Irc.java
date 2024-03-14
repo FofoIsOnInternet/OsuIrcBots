@@ -171,7 +171,7 @@ public class Irc {
     public PrivMsg waitPrivateMessage(String channel){
         PrivMsg msg = null;
         raisePriorityFlag(new Flag(channel, "PRIVMSG", new String[]{hostUserName}));
-        msg = PrivMsg.toPrivMsg(NextData());
+        msg = new PrivMsg(NextData());
         return msg;
     }
     
@@ -183,7 +183,7 @@ public class Irc {
         while (true) {
             IrcProtocolMessage data = NextData();
             if(data.command.equals("PRIVMSG")){
-                System.out.println(PrivMsg.toPrivMsg(data).toString());
+                System.out.println(new PrivMsg(data).toString());
             }else{
                 System.out.println(data.toString());
             }

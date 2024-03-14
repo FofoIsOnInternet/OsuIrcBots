@@ -25,39 +25,19 @@ public class PrivMsg {
         this.recipient = recipient;
         this.timestamp = System.currentTimeMillis();
     }
-    
-    /**
-     * Convert a line of data from the irc server into a PrivMsg object
-     * @param m String of data
-     * @return A PrivMsg object
-     */
-    public static PrivMsg toPrivMsg(String m){
-        String sender = null;
-        String message = null;
-        String recipient = null;
-        if(m.contains("PRIVMSG" )){
-            sender = m.split("!")[0].replaceFirst(":", "");
-            message = m.split(" :")[1];
-            recipient = m.split(" :")[0].split("PRIVMSG ")[1];
-        }
-        return new PrivMsg(sender,message,recipient);
-    }
-    
-    /**
-     * Convert an IrcProtocolMessage object into a PrivMsg object if possible
-     * @param msg The IrcProtocolMessage object
-     * @return A PrivMsg object
-     */
-    public static PrivMsg toPrivMsg(IrcProtocolMessage msg){
-        String sender = null;
-        String message = null;
-        String recipient = null;
+    public PrivMsg(IrcProtocolMessage msg){
         if(msg.command.equals("PRIVMSG")){
             sender = msg.sender;
             message = msg.attributes[1];
             recipient = msg.attributes[0];
         }
-        return new PrivMsg(sender,message,recipient);
+    }
+    public PrivMsg(String m){
+        if(m.contains("PRIVMSG" )){
+            sender = m.split("!")[0].replaceFirst(":", "");
+            message = m.split(" :")[1];
+            recipient = m.split(" :")[0].split("PRIVMSG ")[1];
+        }
     }
     
     @Override
