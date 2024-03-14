@@ -5,6 +5,7 @@
 package irc;
 
 import java.util.Arrays;
+import main.Tools;
 
 /**
  *
@@ -43,7 +44,7 @@ public class IrcProtocolMessage {
         }
         attributes = Arrays.copyOf(attributes,actualAttributesCount);
         // Sender
-        if(isNumeric(command)){// If the command is numeric then it is a reply from the server
+        if(Tools.isNumeric(command)){// If the command is numeric then it is a reply from the server
             isReply=true;
             sender = null;
         }else{ // Otherwise we can extract the username
@@ -78,7 +79,7 @@ public class IrcProtocolMessage {
         result &= f.command == null || command.equals(f.command);
         // Attributes
         if (f.attributes != null){
-            for (int i=0;i<min(f.attributes.length,attributes.length);i++){
+            for (int i=0;i<Tools.min(f.attributes.length,attributes.length);i++){
                 String attr = attributes[i];
                 String fattr = f.attributes[i];
                 result &= fattr == null || attr.equals(fattr);
@@ -111,25 +112,5 @@ public class IrcProtocolMessage {
             b.append(" | ");
         }
         return b.toString();
-    }
-    
-    public static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-    
-    public static int min(int a, int b){
-        if(a>b){
-            return b;
-        }else{
-            return a;
-        }
     }
 }

@@ -120,7 +120,6 @@ public class MultiplayerLobby {
         LobbyEvent event = null;
         if(data != null && data.command.equals("PRIVMSG")){
             var message = PrivMsg.toPrivMsg(data);
-            
         }
         
         return event;
@@ -132,9 +131,9 @@ public class MultiplayerLobby {
             var data = irc.NextData();
             if(data != null){
                 if(data.command.equals("PRIVMSG")){
-                    var message = PrivMsg.toPrivMsg(data);
+                    PrivMsg message = new PrivMsg(data);
                     System.out.println(message.toString());
-                    var event = LobbyEvent.toLobbyEvent(message);
+                    LobbyEvent event = new LobbyEvent(message);
                     System.out.println(event.toString());
                     if(message.message.contains("!quit "+CLOSE_CODE)){
                         close();

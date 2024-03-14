@@ -19,6 +19,10 @@ public class LobbyEvent {
         this.type = eventType;
         this.attributes = type.hashMap();
     }
+    public LobbyEvent(PrivMsg m){
+        this(LobbyEventType.identifyEventType(m));
+    }
+    
     
     /**
      * gets the value of an attribute
@@ -36,12 +40,7 @@ public class LobbyEvent {
     public void setValue(String attr,Object value){
         attributes.replace(attr, value);
     }
-    
-    public static LobbyEvent toLobbyEvent (PrivMsg m){
-        LobbyEvent event = new LobbyEvent(LobbyEventType.identifyEventType(m));
-        return event;
-    }
-    
+
     @Override
     public String toString(){
         return type.name();

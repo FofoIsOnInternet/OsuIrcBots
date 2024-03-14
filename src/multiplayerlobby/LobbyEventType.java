@@ -111,5 +111,4 @@ public enum LobbyEventType {
     public boolean isMessageOfType(PrivMsg m ){
         return isMessageOfType.apply(m);
     }
-    
 }

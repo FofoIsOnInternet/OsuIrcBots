@@ -9,13 +9,22 @@ package autohostbot;
  * @author faust
  */
 public class User {
+    
+    public enum Color{
+        RED,BLUE;
+    }
+    
     private String name;
     private int slot;
+    private Color color;
     private int topCount;
     private int playCount;
     private long lastConnection;
     
     public User(String username,int slot){
+        this(username,slot,null);
+    }
+    public User(String username,int slot, Color color){
         this.name = username;
         this.slot = slot;
         loadIfExists();
