@@ -14,55 +14,118 @@ import java.util.function.Function;
 public enum LobbyEventType {
     SYSTEM_MESSAGE(
             new String[]{"message"},
-            (PrivMsg m) -> m.sender.equals("BanchoBot")
+            (PrivMsg m) -> m.sender.equals("BanchoBot"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                map.put("message", m.message);
+                return map;
+            }
     ),
     USER_JOIN(
             new String[]{"username","slot"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
-                           m.message.contains(" joined in slot ")
+                           m.message.contains(" joined in slot "),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                String msg = m.message;
+                map.put("username",msg.substring(0, msg.indexOf(" joined in slot ")));
+                map.put("slot",msg.split(" joined in slot ")[1].replace(".", ""));
+                return map;
+            }
     ),
     USER_LEAVE(
             new String[]{"username"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
-                           m.message.contains(" left the game.")
+                           m.message.contains(" left the game."),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                String msg = m.message;
+                map.put("username",msg.split(" left the game.")[0]);
+                return map;
+            }
     ),
     USER_MOVED(
             new String[]{"username","slot"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
-                           m.message.contains(" moved to slot ")
+                           m.message.contains(" moved to slot "),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                String msg = m.message;
+                map.put("username",msg.substring(0, msg.indexOf(" moved to slot ")));
+                map.put("slot",msg.split(" moved to slot ")[1].replace(".", ""));
+                return map;
+            }
     ),
     USER_MESSAGE(
             new String[]{"username","message"},
-            (PrivMsg m) -> !SYSTEM_MESSAGE.isMessageOfType(m)
+            (PrivMsg m) -> !SYSTEM_MESSAGE.isMessageOfType(m),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                map.put("username",m.sender);
+                map.put("message", m.message);
+                return map;
+            }
     ),
     PICKED_MAP(
             new String[]{"mapid"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
-                           m.message.contains("Beatmap changed to:")
+                           m.message.contains("Beatmap changed to:"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                // TODO
+                return map;
+            }
     ),
     USER_CHANGED_TEAM(
             new String[]{"username","color"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
-                           m.message.contains(" changed to ")
+                           m.message.contains(" changed to "),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                // TODO
+                return map;
+            }
     ),
     HOST_CHANGE(
             new String[]{"username"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
                            m.message.contains("Changed match host to ") ||
-                           m.message.contains("Cleared match host")
+                           m.message.contains("Cleared match host"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                // TODO
+                return map;
+            }
     ),
     GAME_START(
             new String[0],
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
-                           m.message.contains("match started") // VERIFY !!!
+                           m.message.contains("The match has started"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                // TODO
+                return map;
+            }
+    ),
+    MATCH_CLOSE(
+            new String[0],
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("Closed the match"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
     );
     
     private final String[] attrs;
-    private final Function<PrivMsg,Boolean> isMessageOfType;
+    private final Function<PrivMsg,Boolean> messageTypeChecker;
+    private final Function<PrivMsg,HashMap<String,String>> attributeExtractor;
     
-    private LobbyEventType (String[] attributes,Function<PrivMsg,Boolean> typeFunction){
-        attrs = attributes;
-        isMessageOfType = typeFunction;
+    private LobbyEventType (String[] attributes,Function<PrivMsg,Boolean> messageTypeChecker,
+                            Function<PrivMsg,HashMap<String,String>> attributeExtractor){
+        this.attrs = attributes;
+        this.messageTypeChecker = messageTypeChecker;
+        this.attributeExtractor = attributeExtractor;
     }
     
     /**
@@ -78,8 +141,8 @@ public enum LobbyEventType {
      * are the attributes of the given LobbyEventType
      * @return 
      */
-    public HashMap<String,Object> hashMap(){
-        HashMap<String,Object> map = new HashMap<>();
+    public HashMap<String,String> hashMap(){
+        HashMap<String,String> map = new HashMap<>();
         for(String attr : attributes()){
             map.put(attr, null);
         }
@@ -114,6 +177,10 @@ public enum LobbyEventType {
      * @return true iff the message is of the given type
      */
     public boolean isMessageOfType(PrivMsg m ){
-        return isMessageOfType.apply(m);
+        return messageTypeChecker.apply(m);
+    }
+    
+    public HashMap<String,String> extractAttributes(PrivMsg m ){
+        return attributeExtractor.apply(m);
     }
 }

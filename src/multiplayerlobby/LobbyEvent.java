@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class LobbyEvent {
     private final LobbyEventType type;
-    private final HashMap<String,Object> attributes;
+    private final HashMap<String,String> attributes;
     
     public LobbyEvent(LobbyEventType eventType){
         this.type = eventType;
@@ -21,6 +21,7 @@ public class LobbyEvent {
     }
     public LobbyEvent(PrivMsg m){
         this(LobbyEventType.identifyEventType(m));
+        this.extractAttributes(m);
     }
     
     
@@ -29,7 +30,7 @@ public class LobbyEvent {
      * @param attr LobbyEventType attribute
      * @return any object
      */
-    public Object getValue(String attr){
+    public String getValue(String attr){
         return attributes.get(attr);
     }
     /**
@@ -37,12 +38,43 @@ public class LobbyEvent {
      * @param attr LobbyEventType attribute
      * @param value 
      */
-    public void setValue(String attr,Object value){
+    public void setValue(String attr,String value){
         attributes.replace(attr, value);
+    }
+    
+    /**
+     * @return the type of the event
+     */
+    public LobbyEventType getType(){
+        return type;
+    }
+    
+    /**
+     * Extract all the informations from a message
+     * @param m private message
+     */
+    private void extractAttributes(PrivMsg m){
+        var attrs = type.extractAttributes(m);
+        for(String k : type.attributes()){
+            attributes.put(k,attrs.get(k));
+        }
+    }
+    
+    /**
+     * Indicates if the given LobbyEventType is the same as the event.
+     * @param eventType
+     * @return true iff the event is of the given type
+     */
+    public boolean isOfType(LobbyEventType eventType){
+        return type == eventType;
     }
 
     @Override
     public String toString(){
-        return type.name();
+        String s = type.name() + " : ";
+        for (String k : type.attributes()){
+            s += attributes.get(k) + "|";
+        }
+        return s;
     }
 }

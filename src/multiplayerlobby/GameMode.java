@@ -8,7 +8,7 @@ package multiplayerlobby;
  *
  * @author faust
  */
-public enum GameMode {
+public enum GameMode implements multiplayerObjectEnum{
     STD("osu!Standard",0),
     MANIA("osu!Mania",3),
     CTB("osu!CatchTheBeat",2),
@@ -22,6 +22,7 @@ public enum GameMode {
         this.number = number;
     }
     
+    @Override
     public int toInt(){
         return number;
     }

@@ -51,10 +51,6 @@ public class MultiplayerLobby {
         irc.leave(channel);
         // Adds a flag on messages coming from the lobby
         irc.addFlag(new Flag(null,"PRIVMSG",new String[]{roomId}));
-        // Run the bot
-        run();
-        // Close the room
-        if (open) {close();}
     }
     public MultiplayerLobby (String name){
         this(name,GameMode.STD);
@@ -102,7 +98,8 @@ public class MultiplayerLobby {
     public void map(int mapid){map(mapid,mode);}
     public void map(Map map, GameMode mode){map(map.id(),mode);}
     public void map(Map map){map(map.id());}
-    public void mods(mods[] mods){}
+    public void mods(Mod[] mods){}
+    public void mods(Mod mod){}
     public void timer(int time){}
     public void abortTimer(){}
     public void kick(String userName){}
@@ -133,13 +130,13 @@ public class MultiplayerLobby {
         LobbyEvent event = null;
         if(data != null && data.command.equals("PRIVMSG")){
             var message = new PrivMsg(data);
+            event = new LobbyEvent(message);
         }
-        
         return event;
     }
     
-    private void run(){
-        while(open){
+    public void run(){
+        while(isOpen()){
             irc.ping();
             var data = irc.NextData();
             if(data != null){

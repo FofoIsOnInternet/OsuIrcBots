@@ -55,9 +55,6 @@ public class Irc {
             send("USER " + nickname + " " + nickname + " " + nickname + " :Hello bancho!!");
             send("NICK " + nickname);
             hostUserName = nickname;
-            
-            addFlag(new Flag(null, "PING", null));
-            addFlag(new Flag(null, "PONG", null));
 
             // Join the channel
             send("JOIN " + channel);

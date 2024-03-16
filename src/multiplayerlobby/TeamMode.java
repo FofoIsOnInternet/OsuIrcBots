@@ -8,7 +8,7 @@ package multiplayerlobby;
  *
  * @author faust
  */
-public enum TeamMode {
+public enum TeamMode implements multiplayerObjectEnum{
     HEAD2HEAD,
     TAGCOOP,
     TEAMVS,
@@ -19,6 +19,7 @@ public enum TeamMode {
      * Default 0.
      * @return An integer
      */
+    @Override
     public int toInt(){
         int value = 0;
         switch(this){

@@ -4,7 +4,7 @@
  */
 package main;
 
-import multiplayerlobby.MultiplayerLobby;
+import autohostbot.AutoHostBot;
 
 
 /**
@@ -18,7 +18,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MultiplayerLobby lobby = new MultiplayerLobby("TEST");
+        AutoHostBot bot = new AutoHostBot();
+        bot.run(); 
     }
     
 }
