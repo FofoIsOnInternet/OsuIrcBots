@@ -46,6 +46,10 @@ public class User {
         slot = newSlot;
     }
     
+    public String getUserName(){
+        return name;
+    }
+    
     @Override
     public boolean equals(Object o){
         if(!(o instanceof User)){

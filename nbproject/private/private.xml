@@ -5,8 +5,9 @@
         <group>
             <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/multiplayerlobby/MultiplayerLobby.java</file>
             <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/main/Main.java</file>
-            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/multiplayerlobby/LobbyEvent.java</file>
-            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/multiplayerlobby/LobbyEventType.java</file>
+            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/multiplayerlobby/multiplayerBot.java</file>
+            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/autohostbot/AutoHostBot.java</file>
+            <file>file:/C:/Users/faust/Documents/Projets/OsuIrcBots/src/multiplayerlobby/Map.java</file>
         </group>
     </open-files>
 </project-private>

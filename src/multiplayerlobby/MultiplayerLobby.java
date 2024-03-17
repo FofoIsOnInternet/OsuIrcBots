@@ -17,11 +17,18 @@ public class MultiplayerLobby {
     private String roomName;
     private String roomId; 
     private boolean open = false;
-    private GameMode mode;
+    private GameMode gameMode;
+    private TeamMode teamMode;
+    private ScoreMode scoreMode;
+    private int size;
     private final long CLOSE_CODE;
+    public final static int DEFAULT_MAP = 4532271;
     
-    public MultiplayerLobby(String name,GameMode mode){
-        this.mode = mode;
+    public MultiplayerLobby(String name, GameMode gameMode, TeamMode teamMode, ScoreMode scoreMode){
+        this.gameMode = gameMode;
+        this.teamMode = teamMode;
+        this.scoreMode = scoreMode;
+        this.size = 16;
         // Lobby close code
         CLOSE_CODE = new Random().nextLong();
         System.out.println(CLOSE_CODE);
@@ -51,21 +58,26 @@ public class MultiplayerLobby {
         irc.leave(channel);
         // Adds a flag on messages coming from the lobby
         irc.addFlag(new Flag(null,"PRIVMSG",new String[]{roomId}));
+        map();
     }
     public MultiplayerLobby (String name){
-        this(name,GameMode.STD);
+        this(name,GameMode.STD,TeamMode.HEAD2HEAD,ScoreMode.SCORE);
     }
     
     /**
      * Send a private message to the lobby
      * @param message Text line to send
      */
-    private void say(String message){
+    public void say(String message){
         irc.privateMessage(roomId, message);
     }
     
     public boolean isOpen(){
         return open;
+    }
+    
+    public void setName(String roomName){
+        this.roomName = roomName;
     }
     
     // MP COMMANDS
@@ -74,17 +86,18 @@ public class MultiplayerLobby {
      * Updates the room name.
      * @param title 
      */
-    public void name(String title){say("!mp name " + title);}
+    public void name(String title){roomName=title;say("!mp name " + title);}
     public void name(){name(roomName);}
     public void invite(String userName){say("!mp invite " + userName);}
     public void lock(){say("!mp lock");}
     public void unlock(){say("!mp unlock");}
-    public void size(int size){say("!mp size " + size);}
+    public void size(int size){this.size=size;say("!mp size " + size);}
     public void set(TeamMode teamMode, ScoreMode scoreMode,int size){
         say("!mp set " + teamMode.toInt() + " "
                         + scoreMode.toInt() + " "
                         + size);
     }
+    public void set(){set(teamMode,scoreMode,size);}
     public void move(String userName,int slot){say("!mp move " + userName + " " + slot);}
     public void host(String userName){say("!mp host " + userName);}
     public void clearHost(){say("!mp clearhost");}
@@ -95,17 +108,18 @@ public class MultiplayerLobby {
     public void team(String userName,TeamColor color){say("!mp team " + userName + " "
                                                                       + color.toString());}
     public void map(int mapid,GameMode mode){say("!mp map " + mapid + " " + mode.toInt());}
-    public void map(int mapid){map(mapid,mode);}
-    public void map(Map map, GameMode mode){map(map.id(),mode);}
-    public void map(Map map){map(map.id());}
+    public void map(int mapid){map(mapid,gameMode);}
+    public void map(Map map, GameMode mode){map(map.getID(),mode);}
+    public void map(Map map){map(map.getID());}
+    public void map(){map(DEFAULT_MAP);}
     public void mods(Mod[] mods){}
     public void mods(Mod mod){}
-    public void timer(int time){}
-    public void abortTimer(){}
-    public void kick(String userName){}
-    public void ban(String userName){}
-    public void password(String password){}
-    public void removePassord(){}
+    public void timer(int time){say("!mp timer " + time);}
+    public void abortTimer(){say("!mp aborttimer ");}
+    public void kick(String userName){say("!mp kick " + userName);}
+    public void ban(String userName){say("!mp ban " + userName);}
+    public void password(String password){say("!mp password " + password);}
+    public void removePassord(){say("!mp password");}
     public void addRef(String[] usersName){}
     public void removeRef(String[] usersName){}
     public void listRefs(String[] usersName){}
@@ -117,6 +131,13 @@ public class MultiplayerLobby {
         say("!mp close");
         open = false;
         irc.disconect();
+    }
+    
+    /**
+     * Ping the irc client to not get disconnected
+     */
+    public void ping(){
+        irc.ping();
     }
     
     // END OF MP COMMANDS
@@ -137,7 +158,7 @@ public class MultiplayerLobby {
     
     public void run(){
         while(isOpen()){
-            irc.ping();
+            ping();
             var data = irc.NextData();
             if(data != null){
                 if(data.command.equals("PRIVMSG")){

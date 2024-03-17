@@ -9,7 +9,9 @@ package main;
  * @author faust
  */
 public class Tools {
-
+    
+    public static final String API_KEY = "97d00e3f0c29b1025077439182c9012a43d93c26";
+    
     /**
      * The minimum between two integers
      * @param a int

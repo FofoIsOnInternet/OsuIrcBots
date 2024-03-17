@@ -72,7 +72,8 @@ public enum LobbyEventType {
                            m.message.contains("Beatmap changed to:"),
             (PrivMsg m)->{
                 HashMap<String,String> map = new HashMap<>();
-                // TODO
+                String msg = m.message;
+                map.put("mapid",msg.substring(msg.lastIndexOf('/')+1,msg.lastIndexOf(')')));
                 return map;
             }
     ),
@@ -82,7 +83,9 @@ public enum LobbyEventType {
                            m.message.contains(" changed to "),
             (PrivMsg m)->{
                 HashMap<String,String> map = new HashMap<>();
-                // TODO
+                String[] info = m.message.split(" changed to ");
+                map.put("username",info[0]);
+                map.put("color",info[1]);
                 return map;
             }
     ),
@@ -93,7 +96,11 @@ public enum LobbyEventType {
                            m.message.contains("Cleared match host"),
             (PrivMsg m)->{
                 HashMap<String,String> map = new HashMap<>();
-                // TODO
+                if(m.message.contains("Cleared match host")){
+                    map.put("username", null);
+                }else{
+                    map.put("username", m.message.split("Changed match host to ")[1]);
+                }
                 return map;
             }
     ),
@@ -103,7 +110,47 @@ public enum LobbyEventType {
                            m.message.contains("The match has started"),
             (PrivMsg m)->{
                 HashMap<String,String> map = new HashMap<>();
-                // TODO
+                return map;
+            }
+    ),
+    GAME_END(
+            new String[0],
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("The match has finished!"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+    ),
+    ALL_READY(
+            new String[0],
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("All players are ready"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+    ),
+    TIMER_END(
+            new String[0],
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("Countdown finished"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+    ),
+    USER_SCORE(
+            new String[]{"username","score","status"},
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains(" finished playing "),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                String msg = m.message;
+                map.put("username",msg.split(" finished playing ")[0]);
+                String result = msg.substring(msg.lastIndexOf('('), msg.lastIndexOf(')'));
+                map.put("score",result.split(",")[0].split("Score: ")[1]);
+                map.put("status",result.split(",")[1].strip());
                 return map;
             }
     ),
