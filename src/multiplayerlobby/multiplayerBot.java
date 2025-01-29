@@ -6,7 +6,7 @@ package multiplayerlobby;
 
 import com.oopsjpeg.osu4j.backend.Osu;
 import java.util.HashMap;
-import main.Tools;
+import utils.Tools;
 
 /**
  *

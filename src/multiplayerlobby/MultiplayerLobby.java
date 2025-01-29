@@ -8,6 +8,7 @@ import irc.Flag;
 import irc.Irc;
 import irc.PrivMsg;
 import java.util.*;
+import utils.EnvLoader;
 /**
  *
  * @author faust
@@ -32,14 +33,15 @@ public class MultiplayerLobby {
         // Lobby close code
         CLOSE_CODE = new Random().nextLong();
         System.out.println(CLOSE_CODE);
-        // Irc server details
-        String server = "irc.ppy.sh";
-        int port = 6667;
-        String channel = "#osu";
-        String nickname = "f_o_f_o";
-        String password = "4a45538f";
         // Instantiate an irc on bancho
-        irc = new Irc(server,port,channel,nickname,password);
+        String channel = "#osu";
+        irc = new Irc(
+                EnvLoader.get("OSU_IRC_SERVER"),
+                Integer.parseInt(EnvLoader.get("OSU_IRC_PORT")),
+                channel,
+                EnvLoader.get("OSU_IRC_USERNAME"),
+                EnvLoader.get("OSU_IRC_PASSWORD")
+        );
         //irc.run();
         // opens a new room
         roomName = name;
@@ -105,8 +107,7 @@ public class MultiplayerLobby {
     public void start(int time){say("!mp start " + time);}
     public void start(){say("!mp start");}
     public void abort(){say("!mp abort");}
-    public void team(String userName,TeamColor color){say("!mp team " + userName + " "
-                                                                      + color.toString());}
+    public void team(String userName,TeamColor color){say("!mp team " + userName + " " + color.toString());}
     public void map(int mapid,GameMode mode){say("!mp map " + mapid + " " + mode.toInt());}
     public void map(int mapid){map(mapid,gameMode);}
     public void map(Map map, GameMode mode){map(map.getID(),mode);}

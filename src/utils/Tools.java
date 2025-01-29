@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package main;
+package utils;
 
 /**
  *
@@ -10,7 +10,7 @@ package main;
  */
 public class Tools {
     
-    public static final String API_KEY = "97d00e3f0c29b1025077439182c9012a43d93c26";
+    public static final String API_KEY = EnvLoader.get("OSU_API_KEY");
     
     /**
      * The minimum between two integers

@@ -5,7 +5,7 @@
 package irc;
 
 import java.util.Arrays;
-import main.Tools;
+import utils.Tools;
 
 /**
  *
