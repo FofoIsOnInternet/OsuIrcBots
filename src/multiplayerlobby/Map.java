@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package multiplayerlobby;
 
 import com.oopsjpeg.osu4j.OsuBeatmap;
@@ -11,7 +7,7 @@ import com.oopsjpeg.osu4j.exception.OsuAPIException;
 
 /**
  *
- * @author faust
+ * @author fofoisoninternet
  */
 public class Map extends OsuBeatmap{
     

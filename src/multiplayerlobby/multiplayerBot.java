@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package multiplayerlobby;
 
 import com.oopsjpeg.osu4j.backend.Osu;
@@ -10,7 +6,7 @@ import utils.Tools;
 
 /**
  *
- * @author faust
+ * @author fofoisoninternet
  */
 public abstract class multiplayerBot {
     /**

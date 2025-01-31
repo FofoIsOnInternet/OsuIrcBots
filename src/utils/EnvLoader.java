@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package utils;
 
 import java.io.FileInputStream;
@@ -10,7 +6,7 @@ import java.util.Properties;
 
 /**
  *
- * @author faustin
+ * @author fofoisoninternet
  */
 public class EnvLoader {
     private static final Properties properties = new Properties();

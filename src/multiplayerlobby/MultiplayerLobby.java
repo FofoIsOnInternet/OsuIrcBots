@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package multiplayerlobby;
 
 import irc.Flag;
@@ -11,7 +7,7 @@ import java.util.*;
 import utils.EnvLoader;
 /**
  *
- * @author faust
+ * @author fofoisoninternet
  */
 public class MultiplayerLobby {
     private Irc irc;

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package multiplayerlobby;
 
 import irc.PrivMsg;
@@ -9,7 +5,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author faust
+ * @author fofoisoninternet
  */
 public class LobbyEvent {
     private final LobbyEventType type;
