@@ -1,4 +1,4 @@
-package utils;
+package com.fofoisoninternet.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

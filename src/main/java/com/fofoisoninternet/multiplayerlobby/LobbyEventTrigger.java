@@ -1,4 +1,4 @@
-package multiplayerlobby;
+package com.fofoisoninternet.multiplayerlobby;
 
 /**
  *

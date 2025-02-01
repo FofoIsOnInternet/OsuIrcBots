@@ -1,4 +1,4 @@
-# OsuIrcBots
+# Osu! Auto-Host Bots
 
 A project base to build any Osu! auto-host bot in Java.
 

@@ -1,7 +1,7 @@
-package irc;
+package com.fofoisoninternet.irc;
 
 import java.util.Arrays;
-import utils.Tools;
+import com.fofoisoninternet.utils.Tools;
 
 /**
  *

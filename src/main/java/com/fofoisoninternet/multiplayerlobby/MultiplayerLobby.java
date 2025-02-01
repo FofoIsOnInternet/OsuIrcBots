@@ -1,10 +1,10 @@
-package multiplayerlobby;
+package com.fofoisoninternet.multiplayerlobby;
 
-import irc.Flag;
-import irc.Irc;
-import irc.PrivMsg;
+import com.fofoisoninternet.irc.Flag;
+import com.fofoisoninternet.irc.Irc;
+import com.fofoisoninternet.irc.PrivMsg;
 import java.util.*;
-import utils.EnvLoader;
+import com.fofoisoninternet.utils.EnvLoader;
 /**
  *
  * @author fofoisoninternet

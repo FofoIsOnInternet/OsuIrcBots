@@ -1,6 +1,6 @@
-package multiplayerlobby;
+package com.fofoisoninternet.multiplayerlobby;
 
-import irc.PrivMsg;
+import com.fofoisoninternet.irc.PrivMsg;
 import java.util.HashMap;
 
 /**

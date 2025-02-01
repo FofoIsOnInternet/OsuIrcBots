@@ -1,4 +1,4 @@
-package irc;
+package com.fofoisoninternet.irc;
 
 import java.io.*;
 import java.net.Socket;

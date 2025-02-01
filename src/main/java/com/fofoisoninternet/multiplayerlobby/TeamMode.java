@@ -1,33 +1,34 @@
-package multiplayerlobby;
+package com.fofoisoninternet.multiplayerlobby;
 
 /**
  *
  * @author fofoisoninternet
  */
-public enum ScoreMode {
-    SCORE,
-    ACCURACY,
-    COMBO,
-    SCOREV2;
+public enum TeamMode implements multiplayerObjectEnum{
+    HEAD2HEAD,
+    TAGCOOP,
+    TEAMVS,
+    TAGTEAMVS;
     
     /**
      * Gives the number associated to each mode.
      * Default 0.
      * @return An integer
      */
+    @Override
     public int toInt(){
         int value = 0;
         switch(this){
-            case SCORE :
+            case HEAD2HEAD :
                 value = 0;
                 break;
-            case ACCURACY :
+            case TAGCOOP :
                 value = 1;
                 break;
-            case COMBO :
+            case TEAMVS :
                 value = 2;
                 break;
-            case SCOREV2 :
+            case TAGTEAMVS :
                 value = 3;
                 break;
         }

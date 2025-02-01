@@ -1,4 +1,4 @@
-package multiplayerlobby;
+package com.fofoisoninternet.multiplayerlobby;
 
 import com.oopsjpeg.osu4j.OsuBeatmap;
 import com.oopsjpeg.osu4j.backend.EndpointBeatmaps;

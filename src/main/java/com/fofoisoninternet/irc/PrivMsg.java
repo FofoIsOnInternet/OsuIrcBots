@@ -1,4 +1,4 @@
-package irc;
+package com.fofoisoninternet.irc;
 
 import java.util.Date;
 import java.text.DateFormat;   

@@ -1,5 +1,9 @@
-package irc;
+package com.fofoisoninternet.irc;
 
+/**
+ *
+ * @author fofoisoninternet
+ */
 public class Flag {
     public String sender;
     public String command;

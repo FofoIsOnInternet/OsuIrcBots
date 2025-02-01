@@ -1,8 +1,8 @@
-package multiplayerlobby;
+package com.fofoisoninternet.multiplayerlobby;
 
 import com.oopsjpeg.osu4j.backend.Osu;
 import java.util.HashMap;
-import utils.Tools;
+import com.fofoisoninternet.utils.Tools;
 
 /**
  *
