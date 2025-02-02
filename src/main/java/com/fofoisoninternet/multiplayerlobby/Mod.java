@@ -4,7 +4,7 @@ package com.fofoisoninternet.multiplayerlobby;
  *
  * @author fofoisoninternet
  */
-public enum Mod implements multiplayerObjectEnum{
+public enum Mod implements MultiplayerObjectEnum{
     HR("Hard Rock","HR",0),
     DT("Double time","DT",0),
     FL("Flash light","FL",0),

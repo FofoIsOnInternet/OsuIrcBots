@@ -4,7 +4,7 @@ package com.fofoisoninternet.multiplayerlobby;
  *
  * @author fofoisoninternet
  */
-public interface multiplayerObjectEnum {
+public interface MultiplayerObjectEnum {
     /**
      * Indicates the number understood by bancho.
      * @return An integer, the equivalent of the object for bancho

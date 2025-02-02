@@ -63,15 +63,15 @@ OSU_IRC_USERNAME=
 OSU_IRC_PASSWORD=
 ```
 ### Create a new bot
-- Create a class that extends `multiplayerBot`.
+- Create a class that extends [`MultiplayerBot`](https://github.com/FofoIsOnInternet/osu-auto-host-bots/blob/79f79defaec0298c89899c5d8e642257d72b4dad/src/main/java/com/fofoisoninternet/multiplayerlobby/MultiplayerBot.java).
 ```
 // YourAutoHostBot.java
 package com.mycompany.app;
 
-import com.fofoisoninternet.multiplayerlobby.multiplayerBot;
+import com.fofoisoninternet.multiplayerlobby.MultiplayerBot;
 import com.fofoisoninternet.multiplayerlobby.LobbyEvent;
 
-public class YourAutoHostBot extends multiplayerBot{
+public class YourAutoHostBot extends MultiplayerBot{
     public YourAutoHostBot(){
         super();
         // Rename the lobby (!mp name)

@@ -4,7 +4,7 @@ package com.fofoisoninternet.multiplayerlobby;
  *
  * @author fofoisoninternet
  */
-public enum TeamMode implements multiplayerObjectEnum{
+public enum TeamMode implements MultiplayerObjectEnum{
     HEAD2HEAD,
     TAGCOOP,
     TEAMVS,

@@ -8,7 +8,7 @@ import com.fofoisoninternet.utils.Tools;
  *
  * @author fofoisoninternet
  */
-public abstract class multiplayerBot {
+public abstract class MultiplayerBot {
     /**
      * Links every LobbyEventType to a function
      */
@@ -24,7 +24,7 @@ public abstract class multiplayerBot {
      */
     protected final Osu osuApi;
     
-    public multiplayerBot(){
+    public MultiplayerBot(){
         // New lobby & irc
         lobby = new MultiplayerLobby("AutoHostBot Test");
         eventTriggers = new HashMap<>();

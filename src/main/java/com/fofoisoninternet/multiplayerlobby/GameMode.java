@@ -4,7 +4,7 @@ package com.fofoisoninternet.multiplayerlobby;
  *
  * @author fofoisoninternet
  */
-public enum GameMode implements multiplayerObjectEnum{
+public enum GameMode implements MultiplayerObjectEnum{
     STD("osu!Standard",0),
     MANIA("osu!Mania",3),
     CTB("osu!CatchTheBeat",2),
