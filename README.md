@@ -109,14 +109,9 @@ public class App {
     }
 }
 ```
-### Run the project
-- Build your project
+- Run your project
 ```
-mvn package
-```
-- Test your project
-```
-java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
+mvn exec:java -Dexec.mainClass="com.mycompany.app.App"
 ```
 
 ### Supported lobby events
