@@ -4,7 +4,11 @@ import com.fofoisoninternet.irc.PrivMsg;
 import java.util.HashMap;
 import java.util.function.Function;
 /**
- *
+ * Naming convention: [SUBJECT]_[ACTION]
+ *   String[] - Data found in the message (message content, username, team, ...)
+ *   Function - Check if the given message matches the EventType (Is it a message sent by a user or did someone leave the lobby?)
+ *   Function - Extracts the data from the message to a hashMap
+ * 
  * @author fofoisoninternet
  */
 public enum LobbyEventType {
@@ -40,7 +44,7 @@ public enum LobbyEventType {
                 return map;
             }
     ),
-    USER_MOVED(
+    USER_MOVE(
             new String[]{"username","slot"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
                            m.message.contains(" moved to slot "),
@@ -62,7 +66,7 @@ public enum LobbyEventType {
                 return map;
             }
     ),
-    PICKED_MAP(
+    MAP_PICK(
             new String[]{"mapid"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
                            m.message.contains("Beatmap changed to:"),
@@ -73,7 +77,7 @@ public enum LobbyEventType {
                 return map;
             }
     ),
-    USER_CHANGED_TEAM(
+    USER_CHANGE_TEAM(
             new String[]{"username","color"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
                            m.message.contains(" changed to "),
@@ -118,7 +122,7 @@ public enum LobbyEventType {
                 return map;
             }
     ),
-    ALL_READY(
+    ALL_USERS_READY(
             new String[0],
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
                            m.message.contains("All players are ready"),

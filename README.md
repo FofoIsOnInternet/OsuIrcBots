@@ -82,12 +82,12 @@ public class YourAutoHostBot extends MultiplayerBot{
     }
 }
 ```
-- Override methods triggered by lobby events such as `userMessage`, `userJoin` or `allReady`.
+- Override methods triggered by lobby events such as `onUserMessage`, `onUserJoin` or `onAllUsersReady`.
 ```
 // YourAutoHostBot.java
 
 @Override
-protected void userJoin(LobbyEvent event){
+protected void onUserJoin(LobbyEvent event){
     lobby.say("Hello, " + event.getValue("username") + "!");
 }
 ```
@@ -117,19 +117,19 @@ mvn exec:java -Dexec.mainClass="com.mycompany.app.App"
 ### Supported lobby events
 | Event | Method name | Triggered on | attributes |
 | --- | --- | --- | --- |
-| USER_JOIN | userJoin | player joining the lobby | username, slot |
-| USER_LEAVE | userLeave | player leaving the lobby | username |
-| USER_MOVED | userMove | player changing slot | username, slot |
-| MATCH_CLOSE | close | lobby being closed | |
-| USER_MESSAGE | userMessage | player sends a message in the lobby | username, message |
-| PICKED_MAP | pickedMap | player picking a map | mapid |
-| GAME_START | gameStarted | game starting | |
-| GAME_END | gameEnded | game ending | |
-| ALL_READY | allReady | all players being ready | |
-| TIMER_END | timerEnd | `!mp timer` ending | |
-| USER_SCORE | userScored | player finished playing | username, score, status |
-| USER_CHANGED_TEAM | userChangedTeam | player changing team | username, color |
-| HOST_CHANGE | hostChanged | host changing to another player | username |
+| USER_JOIN | onUserJoin | player joining the lobby | username, slot |
+| USER_LEAVE | onUserLeave | player leaving the lobby | username |
+| USER_MOVE | onUserMove | player changing slot | username, slot |
+| MATCH_CLOSE | onMatchclose | lobby being closed | |
+| USER_MESSAGE | onUserMessage | player sends a message in the lobby | username, message |
+| MAP_PICK | onMapPick | player picking a map | mapid |
+| GAME_START | onGameStart | game starting | |
+| GAME_END | onGameEnd | game ending | |
+| ALL_USERS_READY | onAllUsersReady | all players being ready | |
+| TIMER_END | onTimerEnd | `!mp timer` ending | |
+| USER_SCORE | onUserScore | player finished playing | username, score, status |
+| USER_CHANGE_TEAM | onUserChangeTeam | player changing team | username, color |
+| HOST_CHANGE | onHostChange | host changing to another player | username |
 
 Additional events could be implemented. You may add your own or request to add one.
 

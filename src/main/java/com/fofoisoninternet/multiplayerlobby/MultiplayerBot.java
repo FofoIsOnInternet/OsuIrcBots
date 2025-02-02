@@ -33,99 +33,104 @@ public abstract class MultiplayerBot {
         osuApi = Osu.getAPI(Tools.API_KEY);
     }
     
+    /**
+     * Initialize lobby event triggers.
+     * 
+     * Follow the naming convention on[Subject][Action]
+     */
     private void initializeEventTriggers() {
-        eventTriggers.put(LobbyEventType.USER_JOIN, this::userJoin);
-        eventTriggers.put(LobbyEventType.USER_LEAVE, this::userLeave);
-        eventTriggers.put(LobbyEventType.USER_MOVED, this::userMove);
-        eventTriggers.put(LobbyEventType.MATCH_CLOSE, this::close);
-        eventTriggers.put(LobbyEventType.USER_MESSAGE,this::userMessage);
-        eventTriggers.put(LobbyEventType.PICKED_MAP,this::pickedMap);
-        eventTriggers.put(LobbyEventType.GAME_START,this::gameStarted);
-        eventTriggers.put(LobbyEventType.GAME_END,this::gameEnded);
-        eventTriggers.put(LobbyEventType.ALL_READY,this::allReady);
-        eventTriggers.put(LobbyEventType.TIMER_END,this::timerEnd);
-        eventTriggers.put(LobbyEventType.USER_SCORE,this::userScored);
-        eventTriggers.put(LobbyEventType.USER_CHANGED_TEAM,this::userChangedTeam);
-        eventTriggers.put(LobbyEventType.HOST_CHANGE,this::hostChanged);
+        eventTriggers.put(LobbyEventType.USER_JOIN, this::onUserJoin);
+        eventTriggers.put(LobbyEventType.USER_LEAVE, this::onUserLeave);
+        eventTriggers.put(LobbyEventType.USER_MOVE, this::onUserMove);
+        eventTriggers.put(LobbyEventType.MATCH_CLOSE, this::onMatchClose);
+        eventTriggers.put(LobbyEventType.USER_MESSAGE,this::onUserMessage);
+        eventTriggers.put(LobbyEventType.MAP_PICK,this::onMapPick);
+        eventTriggers.put(LobbyEventType.GAME_START,this::onGameStart);
+        eventTriggers.put(LobbyEventType.GAME_END,this::onGameEnd);
+        eventTriggers.put(LobbyEventType.ALL_USERS_READY,this::onAllUsersReady);
+        eventTriggers.put(LobbyEventType.TIMER_END,this::onTimerEnd);
+        eventTriggers.put(LobbyEventType.USER_SCORE,this::onUserScore);
+        eventTriggers.put(LobbyEventType.USER_CHANGE_TEAM,this::onUserChangeTeam);
+        eventTriggers.put(LobbyEventType.HOST_CHANGE,this::onHostChange);
         // Add other event triggers
     }
     
     /**
-     * The action realised when a user joins.
-     * @param event informations
+     * The action realized when a user joins.
+     * @param event data
      */
-    protected void userJoin(LobbyEvent event){}
+    protected void onUserJoin(LobbyEvent event){}
     
     /**
-     * The action realised when a user leaves.
-     * @param event informations
+     * The action realized when a user leaves.
+     * @param event data
      */
-    protected void userLeave(LobbyEvent event){}
+    protected void onUserLeave(LobbyEvent event){}
     
     /**
-     * The action realised when a user changes slot.
-     * @param event informations
+     * The action realized when a user changes slot.
+     * @param event data
      */
-    protected void userMove(LobbyEvent event){}
+    protected void onUserMove(LobbyEvent event){}
     
     /**
-     * The action realised when a user sends a message.
-     * @param event informations
+     * The action realized when a user sends a message.
+     * @param event data
      */
-    protected void userMessage(LobbyEvent event){}
+    protected void onUserMessage(LobbyEvent event){}
     
     /**
-     * The action realised when a map is picked
-     * @param event informations
+     * The action realized when a map is picked
+     * @param event data
      */
-    protected void pickedMap(LobbyEvent event){}
+    protected void onMapPick(LobbyEvent event){}
     
     /**
-     * The action realised when a game start
-     * @param event informations
+     * The action realized when a game start
+     * @param event data
      */
-    protected void gameStarted(LobbyEvent event){}
+    protected void onGameStart(LobbyEvent event){}
     
     /**
-     * The action realised when a game end
-     * @param event informations
+     * The action realized when a game end
+     * @param event data
      */
-    protected void gameEnded (LobbyEvent event){}
+    protected void onGameEnd(LobbyEvent event){}
     
     /**
-     * The action realised when all players are ready
-     * @param event informations
+     * The action realized when all players are ready
+     * @param event data
      */
-    protected void allReady (LobbyEvent event){}
+    protected void onAllUsersReady(LobbyEvent event){}
     
     /**
-     * The action realised when a set time end
-     * @param event informations
+     * The action realized when a set time end
+     * @param event data
      */
-    protected void timerEnd (LobbyEvent event){}
+    protected void onTimerEnd (LobbyEvent event){}
     
     /**
-     * The action realised when a user finished playing
-     * @param event informations
+     * The action realized when a user finished playing
+     * @param event data
      */
-    protected void userScored (LobbyEvent event){}
+    protected void onUserScore (LobbyEvent event){}
     
     /**
-     * The action realised when a user changes of team
-     * @param event informations
+     * The action realized when a user changes of team
+     * @param event data
      */
-    protected void userChangedTeam (LobbyEvent event){}
+    protected void onUserChangeTeam (LobbyEvent event){}
     
     /**
-     * The action realised when the host changed
-     * @param event informations
+     * The action realized when the host changed
+     * @param event data
      */
-    protected void hostChanged (LobbyEvent event){}
+    protected void onHostChange (LobbyEvent event){}
     
     /**
      * Tells the lobby it has been closed.
      */
-    private void close(LobbyEvent event){
+    private void onMatchClose(LobbyEvent event){
         lobby.close();
     }
     
