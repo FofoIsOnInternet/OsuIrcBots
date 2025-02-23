@@ -44,7 +44,7 @@ public abstract class MultiplayerBot {
         eventTriggers.put(LobbyEventType.USER_MOVE, this::onUserMove);
         eventTriggers.put(LobbyEventType.MATCH_CLOSE, this::onMatchClose);
         eventTriggers.put(LobbyEventType.USER_MESSAGE,this::onUserMessage);
-        eventTriggers.put(LobbyEventType.MAP_PICK,this::onMapPick);
+        eventTriggers.put(LobbyEventType.MAP_CHANGE,this::onMapChange);
         eventTriggers.put(LobbyEventType.GAME_START,this::onGameStart);
         eventTriggers.put(LobbyEventType.GAME_END,this::onGameEnd);
         eventTriggers.put(LobbyEventType.ALL_USERS_READY,this::onAllUsersReady);
@@ -83,7 +83,7 @@ public abstract class MultiplayerBot {
      * The action realized when a map is picked
      * @param event data
      */
-    protected void onMapPick(LobbyEvent event){}
+    protected void onMapChange(LobbyEvent event){}
     
     /**
      * The action realized when a game start

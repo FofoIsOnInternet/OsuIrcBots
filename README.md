@@ -122,7 +122,7 @@ mvn exec:java -Dexec.mainClass="com.mycompany.app.App"
 | USER_MOVE | onUserMove | player changing slot | username, slot |
 | MATCH_CLOSE | onMatchclose | lobby being closed | |
 | USER_MESSAGE | onUserMessage | player sends a message in the lobby | username, message |
-| MAP_PICK | onMapPick | player picking a map | mapid |
+| MAP_CHANGE | onMapChange | player picking a map | mapid |
 | GAME_START | onGameStart | game starting | |
 | GAME_END | onGameEnd | game ending | |
 | ALL_USERS_READY | onAllUsersReady | all players being ready | |

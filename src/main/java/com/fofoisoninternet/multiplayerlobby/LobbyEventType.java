@@ -66,14 +66,18 @@ public enum LobbyEventType {
                 return map;
             }
     ),
-    MAP_PICK(
+    MAP_CHANGE(
             new String[]{"mapid"},
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
-                           m.message.contains("Beatmap changed to:"),
+                           (m.message.contains("Beatmap changed to:") || m.message.contains("Changed beatmap to")),
             (PrivMsg m)->{
                 HashMap<String,String> map = new HashMap<>();
                 String msg = m.message;
-                map.put("mapid",msg.substring(msg.lastIndexOf('/')+1,msg.lastIndexOf(')')));
+                if (msg.contains("Beatmap changed to:")){
+                    map.put("mapid",msg.substring(msg.lastIndexOf('/')+1,msg.lastIndexOf(')')));
+                } else{
+                    map.put("mapid",msg.substring(msg.lastIndexOf('/')+1,msg.indexOf(" ", msg.lastIndexOf('/')+1)));
+                }
                 return map;
             }
     ),
