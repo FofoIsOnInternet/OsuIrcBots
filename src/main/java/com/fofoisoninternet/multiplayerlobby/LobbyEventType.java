@@ -144,6 +144,40 @@ public enum LobbyEventType {
                 return map;
             }
     ),
+    TIMER_INFO(
+            new String[]{"time"},
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("Countdown ends in "),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                String msg = m.message;
+                int seconds = 0;
+                // Minutes
+                if (msg.contains("minute")){
+                    seconds = 60 * Integer.parseInt(msg.split("in ")[1].split(" min")[0]); 
+                }
+                // Seconds
+                if (msg.contains("second")){
+                    if (seconds == 0){
+                        seconds = Integer.parseInt(msg.split("in ")[1].split(" sec")[0]);
+                    }else{
+                        seconds += Integer.parseInt(msg.split("and ")[1].split(" sec")[0]);
+                    }
+                }
+                // Result
+                map.put("time","" + seconds);
+                return map;
+            }
+    ),
+    TIMER_ABORT(
+            new String[0],
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("Countdown aborted"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+    ),
     TIMER_END(
             new String[0],
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 

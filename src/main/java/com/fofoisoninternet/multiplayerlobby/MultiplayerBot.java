@@ -49,6 +49,8 @@ public abstract class MultiplayerBot {
         eventTriggers.put(LobbyEventType.GAME_ABORT,this::onGameAbort);
         eventTriggers.put(LobbyEventType.GAME_END,this::onGameEnd);
         eventTriggers.put(LobbyEventType.ALL_USERS_READY,this::onAllUsersReady);
+        eventTriggers.put(LobbyEventType.TIMER_INFO,this::onTimerInfo);
+        eventTriggers.put(LobbyEventType.TIMER_ABORT,this::onTimerAbort);
         eventTriggers.put(LobbyEventType.TIMER_END,this::onTimerEnd);
         eventTriggers.put(LobbyEventType.USER_SCORE,this::onUserScore);
         eventTriggers.put(LobbyEventType.USER_CHANGE_TEAM,this::onUserChangeTeam);
@@ -109,7 +111,19 @@ public abstract class MultiplayerBot {
      * The action realized when all players are ready
      * @param event data
      */
-    protected void onAllUsersReady(LobbyEvent event){}
+    protected void onAllUsersReady(LobbyEvent event){} 
+      
+    /**
+     * The action realized when a set time end
+     * @param event data
+     */
+    protected void onTimerInfo (LobbyEvent event){}
+    
+    /**
+     * The action realized when a set time end
+     * @param event data
+     */
+    protected void onTimerAbort (LobbyEvent event){}
     
     /**
      * The action realized when a set time end

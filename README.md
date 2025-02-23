@@ -127,6 +127,8 @@ mvn exec:java -Dexec.mainClass="com.mycompany.app.App"
 | GAME_ABORT | onGameAbort | game aborted | |
 | GAME_END | onGameEnd | game ending | |
 | ALL_USERS_READY | onAllUsersReady | all players being ready | |
+| TIMER_INFO | onTimerInfo | Bancho messages such as 'Countdown ends in [time]' | time (seconds) |
+| TIMER_ABORT | onTimerAbort | `!mp aborttimer` used on the timer | |
 | TIMER_END | onTimerEnd | `!mp timer` ending | |
 | USER_SCORE | onUserScore | player finished playing | username, score, status |
 | USER_CHANGE_TEAM | onUserChangeTeam | player changing team | username, color |
