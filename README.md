@@ -130,6 +130,7 @@ mvn exec:java -Dexec.mainClass="com.mycompany.app.App"
 | USER_SCORE | onUserScore | player finished playing | username, score, status |
 | USER_CHANGE_TEAM | onUserChangeTeam | player changing team | username, color |
 | HOST_CHANGE | onHostChange | host changing to another player | username |
+| USER_ROLL | onUserRoll | player using !roll command | username, points |
 
 Additional events could be implemented. You may add your own or request to add one.
 

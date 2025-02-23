@@ -52,6 +52,7 @@ public abstract class MultiplayerBot {
         eventTriggers.put(LobbyEventType.USER_SCORE,this::onUserScore);
         eventTriggers.put(LobbyEventType.USER_CHANGE_TEAM,this::onUserChangeTeam);
         eventTriggers.put(LobbyEventType.HOST_CHANGE,this::onHostChange);
+        eventTriggers.put(LobbyEventType.USER_ROLL,this::onUserRoll);
         // Add other event triggers
     }
     
@@ -133,6 +134,12 @@ public abstract class MultiplayerBot {
     private void onMatchClose(LobbyEvent event){
         lobby.close();
     }
+    
+    /**
+     * The action realized when a user rolls
+     * @param event data
+     */
+    protected void onUserRoll (LobbyEvent event){}
     
     private void handleEvent(LobbyEvent event) {
         LobbyEventType eventType = event.getType();

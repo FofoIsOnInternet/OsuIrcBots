@@ -166,6 +166,19 @@ public enum LobbyEventType {
                 HashMap<String,String> map = new HashMap<>();
                 return map;
             }
+    ),
+    USER_ROLL(
+            new String[]{"username","points"},
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("rolls") && 
+                           m.message.contains("point(s)"),
+            (PrivMsg m) ->{
+                HashMap<String,String> map = new HashMap<>();
+                String msg = m.message;
+                map.put("username",msg.split(" rolls ")[0]);
+                map.put("points",msg.split(" rolls ")[1].split(" point")[0]);
+                return map;
+            }
     );
     
     private final String[] attrs;
