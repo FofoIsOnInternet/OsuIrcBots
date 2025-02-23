@@ -117,6 +117,15 @@ public enum LobbyEventType {
                 return map;
             }
     ),
+    GAME_ABORT(
+            new String[0],
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("Aborted the match"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+    ),
     GAME_END(
             new String[0],
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 

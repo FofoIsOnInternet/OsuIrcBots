@@ -46,6 +46,7 @@ public abstract class MultiplayerBot {
         eventTriggers.put(LobbyEventType.USER_MESSAGE,this::onUserMessage);
         eventTriggers.put(LobbyEventType.MAP_CHANGE,this::onMapChange);
         eventTriggers.put(LobbyEventType.GAME_START,this::onGameStart);
+        eventTriggers.put(LobbyEventType.GAME_ABORT,this::onGameAbort);
         eventTriggers.put(LobbyEventType.GAME_END,this::onGameEnd);
         eventTriggers.put(LobbyEventType.ALL_USERS_READY,this::onAllUsersReady);
         eventTriggers.put(LobbyEventType.TIMER_END,this::onTimerEnd);
@@ -91,6 +92,12 @@ public abstract class MultiplayerBot {
      * @param event data
      */
     protected void onGameStart(LobbyEvent event){}
+    
+    /**
+     * The action realized when a game is aborted
+     * @param event data
+     */
+    protected void onGameAbort(LobbyEvent event){}
     
     /**
      * The action realized when a game end

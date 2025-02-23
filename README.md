@@ -124,13 +124,14 @@ mvn exec:java -Dexec.mainClass="com.mycompany.app.App"
 | USER_MESSAGE | onUserMessage | player sends a message in the lobby | username, message |
 | MAP_CHANGE | onMapChange | player picking a map | mapid |
 | GAME_START | onGameStart | game starting | |
+| GAME_ABORT | onGameAbort | game aborted | |
 | GAME_END | onGameEnd | game ending | |
 | ALL_USERS_READY | onAllUsersReady | all players being ready | |
 | TIMER_END | onTimerEnd | `!mp timer` ending | |
 | USER_SCORE | onUserScore | player finished playing | username, score, status |
 | USER_CHANGE_TEAM | onUserChangeTeam | player changing team | username, color |
 | HOST_CHANGE | onHostChange | host changing to another player | username |
-| USER_ROLL | onUserRoll | player using !roll command | username, points |
+| USER_ROLL | onUserRoll | score resulting from player using the !roll command | username, points |
 
 Additional events could be implemented. You may add your own or request to add one.
 
