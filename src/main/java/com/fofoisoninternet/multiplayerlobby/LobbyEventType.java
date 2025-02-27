@@ -95,16 +95,20 @@ public enum LobbyEventType {
     ),
     HOST_CHANGE(
             new String[]{"username"},
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) &&
+                           m.message.contains(" became the host."),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                map.put("username", m.message.split(" became the host.")[0]);
+                return map;
+            }
+    ),
+    HOST_CLEAR(
+            new String[0],
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
-                           m.message.contains("Changed match host to ") ||
                            m.message.contains("Cleared match host"),
             (PrivMsg m)->{
                 HashMap<String,String> map = new HashMap<>();
-                if(m.message.contains("Cleared match host")){
-                    map.put("username", null);
-                }else{
-                    map.put("username", m.message.split("Changed match host to ")[1]);
-                }
                 return map;
             }
     ),

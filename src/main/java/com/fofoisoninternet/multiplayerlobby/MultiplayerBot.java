@@ -55,6 +55,7 @@ public abstract class MultiplayerBot {
         eventTriggers.put(LobbyEventType.USER_SCORE,this::onUserScore);
         eventTriggers.put(LobbyEventType.USER_CHANGE_TEAM,this::onUserChangeTeam);
         eventTriggers.put(LobbyEventType.HOST_CHANGE,this::onHostChange);
+        eventTriggers.put(LobbyEventType.HOST_CLEAR,this::onHostClear);
         eventTriggers.put(LobbyEventType.USER_ROLL,this::onUserRoll);
         // Add other event triggers
     }
@@ -148,6 +149,12 @@ public abstract class MultiplayerBot {
      * @param event data
      */
     protected void onHostChange (LobbyEvent event){}
+    
+    /**
+     * The action realized when the host is cleared
+     * @param event data
+     */
+    protected void onHostClear (LobbyEvent event){}
     
     /**
      * Tells the lobby it has been closed.
