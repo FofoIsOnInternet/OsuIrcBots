@@ -125,10 +125,12 @@ mvn exec:java -Dexec.mainClass="com.mycompany.app.App"
 | MAP_CHANGE | onMapChange | player picking a map | mapid |
 | GAME_START | onGameStart | game starting | |
 | GAME_ABORT | onGameAbort | game aborted | |
+| GAME_TIMER_INFO | onGameTimerInfo | called when Bancho sends the time left before the game starts | time (seconds) |
+| GAME_TIMER_ABORT | onGameTimerAbort | called when the game start countdown is aborted (`!mp aborttimer`) | |
 | GAME_END | onGameEnd | game ending | |
 | ALL_USERS_READY | onAllUsersReady | all players being ready | |
-| TIMER_INFO | onTimerInfo | Bancho messages such as 'Countdown ends in [time]' | time (seconds) |
-| TIMER_ABORT | onTimerAbort | `!mp aborttimer` used on the timer | |
+| TIMER_INFO | onTimerInfo | called when Bancho sends the time left to the current timer  | time (seconds) |
+| TIMER_ABORT | onTimerAbort | called when the current timer is stopped (`!mp aborttimer`) | |
 | TIMER_END | onTimerEnd | `!mp timer` ending | |
 | USER_SCORE | onUserScore | player finished playing | username, score, status |
 | USER_CHANGE_TEAM | onUserChangeTeam | player changing team | username, color |

@@ -41,4 +41,32 @@ public class Tools {
         return true;
     }
     
+    /**
+     * Converts the durations given by BanchoBot to a number in seconds.
+     * Ex: 1 minute and 30 seconnds --> 90
+     * 
+     * @param duration A duration like 'M minute(s) and S second(s)'
+     * @return The duration in seconds
+     */
+    public static int durationToSeconds(String duration){
+        // Vars
+        int seconds = 0;
+        
+        // Minutes
+        if (duration.contains("minute")){
+            seconds = 60 * Integer.parseInt(duration.split(" min")[0].strip()); 
+        }
+        
+        // Seconds
+        if (duration.contains("second")){
+            if (seconds == 0){
+                seconds = Integer.parseInt(duration.split(" sec")[0].strip());
+            }else{
+                seconds += Integer.parseInt(duration.split("and ")[1].split(" sec")[0].strip());
+            }
+        }
+        
+        // Result
+        return seconds;
+    }
 }

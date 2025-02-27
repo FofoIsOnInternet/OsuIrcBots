@@ -1,6 +1,7 @@
 package com.fofoisoninternet.multiplayerlobby;
 
 import com.fofoisoninternet.irc.PrivMsg;
+import com.fofoisoninternet.utils.Tools;
 import java.util.HashMap;
 import java.util.function.Function;
 /**
@@ -124,7 +125,8 @@ public enum LobbyEventType {
     GAME_ABORT(
             new String[0],
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
-                           m.message.contains("Aborted the match"),
+                           m.message.contains("Aborted the match") &&
+                          !m.message.contains("start timer"),
             (PrivMsg m)->{
                 HashMap<String,String> map = new HashMap<>();
                 return map;
@@ -134,6 +136,27 @@ public enum LobbyEventType {
             new String[0],
             (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
                            m.message.contains("The match has finished!"),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                return map;
+            }
+    ),
+    GAME_TIMER_INFO(
+            new String[]{"time"},
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("Match starts in "),
+            (PrivMsg m)->{
+                HashMap<String,String> map = new HashMap<>();
+                String msg = m.message;
+                String duration = msg.split("in ")[1];
+                map.put("time","" + Tools.durationToSeconds(duration));
+                return map;
+            }
+    ),
+    GAME_TIMER_ABORT(
+            new String[0],
+            (PrivMsg m) -> SYSTEM_MESSAGE.isMessageOfType(m) && 
+                           m.message.contains("Aborted the match start timer"),
             (PrivMsg m)->{
                 HashMap<String,String> map = new HashMap<>();
                 return map;
@@ -155,21 +178,8 @@ public enum LobbyEventType {
             (PrivMsg m)->{
                 HashMap<String,String> map = new HashMap<>();
                 String msg = m.message;
-                int seconds = 0;
-                // Minutes
-                if (msg.contains("minute")){
-                    seconds = 60 * Integer.parseInt(msg.split("in ")[1].split(" min")[0]); 
-                }
-                // Seconds
-                if (msg.contains("second")){
-                    if (seconds == 0){
-                        seconds = Integer.parseInt(msg.split("in ")[1].split(" sec")[0]);
-                    }else{
-                        seconds += Integer.parseInt(msg.split("and ")[1].split(" sec")[0]);
-                    }
-                }
-                // Result
-                map.put("time","" + seconds);
+                String duration = msg.split("in ")[1];
+                map.put("time","" + Tools.durationToSeconds(duration));
                 return map;
             }
     ),

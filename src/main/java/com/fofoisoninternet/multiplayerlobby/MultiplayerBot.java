@@ -47,6 +47,8 @@ public abstract class MultiplayerBot {
         eventTriggers.put(LobbyEventType.MAP_CHANGE,this::onMapChange);
         eventTriggers.put(LobbyEventType.GAME_START,this::onGameStart);
         eventTriggers.put(LobbyEventType.GAME_ABORT,this::onGameAbort);
+        eventTriggers.put(LobbyEventType.GAME_TIMER_INFO,this::onGameTimerInfo);
+        eventTriggers.put(LobbyEventType.GAME_TIMER_ABORT,this::onGameTimerAbort);
         eventTriggers.put(LobbyEventType.GAME_END,this::onGameEnd);
         eventTriggers.put(LobbyEventType.ALL_USERS_READY,this::onAllUsersReady);
         eventTriggers.put(LobbyEventType.TIMER_INFO,this::onTimerInfo);
@@ -103,6 +105,18 @@ public abstract class MultiplayerBot {
     protected void onGameAbort(LobbyEvent event){}
     
     /**
+     * The action realized when Bancho sends game start timer informations
+     * @param event data
+     */
+    protected void onGameTimerInfo (LobbyEvent event){}
+    
+    /**
+     * The action realized when the game start timer is aborted
+     * @param event data
+     */
+    protected void onGameTimerAbort (LobbyEvent event){}
+    
+    /**
      * The action realized when a game end
      * @param event data
      */
@@ -115,19 +129,19 @@ public abstract class MultiplayerBot {
     protected void onAllUsersReady(LobbyEvent event){} 
       
     /**
-     * The action realized when a set time end
+     * The action realized when Bancho sends timer informations
      * @param event data
      */
     protected void onTimerInfo (LobbyEvent event){}
     
     /**
-     * The action realized when a set time end
+     * The action realized when the current rimer is aborted
      * @param event data
      */
     protected void onTimerAbort (LobbyEvent event){}
     
     /**
-     * The action realized when a set time end
+     * The action realized when the current timer ends
      * @param event data
      */
     protected void onTimerEnd (LobbyEvent event){}
