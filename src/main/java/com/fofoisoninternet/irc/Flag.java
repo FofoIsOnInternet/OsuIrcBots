@@ -1,7 +1,8 @@
 package com.fofoisoninternet.irc;
 
 /**
- *
+ * Message stereotype
+ * 
  * @author fofoisoninternet
  */
 public class Flag {

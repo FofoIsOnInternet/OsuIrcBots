@@ -1,16 +1,19 @@
 package com.fofoisoninternet.multiplayerlobby;
 
 import com.fofoisoninternet.irc.Flag;
-import com.fofoisoninternet.irc.Irc;
+import com.fofoisoninternet.irc.IrcClient;
 import com.fofoisoninternet.irc.PrivMsg;
 import java.util.*;
 import com.fofoisoninternet.utils.EnvLoader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author fofoisoninternet
  */
 public class MultiplayerLobby {
-    private Irc irc;
+    private IrcClient irc;
     private String roomName;
     private String roomId; 
     private boolean open = false;
@@ -31,14 +34,22 @@ public class MultiplayerLobby {
         System.out.println(CLOSE_CODE);
         // Instantiate an irc on bancho
         String channel = "#osu";
-        irc = new Irc(
-                EnvLoader.get("OSU_IRC_SERVER"),
-                Integer.parseInt(EnvLoader.get("OSU_IRC_PORT")),
-                channel,
-                EnvLoader.get("OSU_IRC_USERNAME"),
-                EnvLoader.get("OSU_IRC_PASSWORD")
-        );
-        //irc.run();
+        try {
+            irc = IrcClient
+                    .getInstance()
+                    .setUser(
+                            EnvLoader.get("OSU_IRC_USERNAME"),
+                            EnvLoader.get("OSU_IRC_PASSWORD")
+                    )
+                    .setServer(
+                            EnvLoader.get("OSU_IRC_SERVER"),
+                            Integer.parseInt(EnvLoader.get("OSU_IRC_PORT"))
+                    )
+                    .connect(channel)
+                ;
+        } catch (IOException ex) {
+            Logger.getLogger(MultiplayerLobby.class.getName()).log(Level.SEVERE, null, ex);
+        }
         // opens a new room
         roomName = name;
         irc.privateMessage("BanchoBot","!mp make " + roomName);
@@ -127,7 +138,11 @@ public class MultiplayerLobby {
     public void close(){
         say("!mp close");
         open = false;
-        irc.disconect();
+        try {
+            irc.disconect();
+        } catch (IOException ex) {
+            Logger.getLogger(MultiplayerLobby.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
